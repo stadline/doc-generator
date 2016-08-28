@@ -1,0 +1,44 @@
+doctype
+
+include mixins.jade
+include menu.jade
+
+html
+    head
+        meta(charset="utf-8")
+        title= self.api.name || 'API Documentation'
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,300")
+        style!= self.css
+        //- style: include css/bootstrap.custom.css
+        style: include css/sass/main.min.css
+    body.preload
+        a.text-muted.back-to-top(href='#top')
+            i.fa.fa-toggle-up
+            | &nbsp;Back to top
+        div(class=self.fullWidth ? 'container-fluid' : 'container')
+            .row
+                +Menu(false)
+            .row
+                block nav
+                    +Nav(false)
+
+                .content
+                    block content
+                        +Content('primary', false)
+
+        p.text-muted(style="text-align: center;")
+            | Generated on #{self.date().format('DD MMM YYYY')}
+
+        script: include scripts.js
+        script(type='text/javascript',src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+        script(type='text/javascript',src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
+
+        if self.livePreview
+            script(src="/socket.io/socket.io.js")
+            script.
+                var socket = io();
+                socket.on('refresh', refresh);
+                socket.on('reconnect', function () {
+                    socket.emit('request-refresh');
+                });

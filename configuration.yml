@@ -1,0 +1,12 @@
+env:
+  theme: "flatly"
+  template: "template/index.jade"
+  destination-folder: "generated_doc"
+
+pages:
+  index:
+    path: index.md
+    folder: ""
+  how-to-write-API-doc:
+    path: how-to-write-API-doc.md
+    folder: technical

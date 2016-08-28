@@ -1,0 +1,31 @@
+
+//
+// Variables
+// ---------------------------------------
+
+$brand-primary:             #00b2ca;
+
+// Scaffolding
+
+
+// Typography
+
+$font-family-sans-serif:  Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-base:        $font-family-sans-serif;
+
+// Navbar
+$navbar-inverse-bg:                         $brand-primary;
+$navbar-inverse-color:                      #ffffff;
+$navbar-inverse-border:                     transparent;
+
+// Inverted navbar links
+
+$navbar-inverse-link-color:                 #fff;
+$navbar-inverse-link-hover-bg:              lighten($brand-primary, .95);
+$navbar-inverse-link-active-color:          #fff;
+$navbar-inverse-link-active-bg:             $navbar-inverse-link-hover-bg;
+
+// Buttons
+
+
+// Tables

@@ -1,0 +1,17 @@
+{
+  "name": "stadline-doc-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "generator.js",
+  "scripts": {
+    "gendocs": "node scripts/generate-docs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aglio": "^2.2.1",
+    "js-yaml": "^3.6.1",
+    "lodash": "^4.15.0",
+    "shelljs": "^0.7.4"
+  }
+}

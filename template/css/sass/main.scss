@@ -1,0 +1,66 @@
+//
+// Main doc stylesheet
+// -------------------------------
+
+@import "bootstrap";
+
+body {
+    padding-top: $navbar-height;
+}
+
+
+//
+// Menu
+// -----------------------------
+
+nav {
+    top: 0;
+    padding-top: $navbar-height;
+    background-color: #fafafa;
+    border-right: 1px solid #f0f0f0;
+    color: #777777;
+
+    ul {
+        a {
+            color: #777777;
+            border-top: 0;
+
+            &:hover {
+                color: $brand-primary;
+            }
+        }
+    }
+}
+
+.resource-group {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 0;
+
+    .heading {
+        a {
+            color: #333333;
+            border-radius: 0;
+            text-transform: uppercase;
+            background-color: transparent;
+            border-bottom: 0;
+            font-weight: 500;
+        }
+    }
+
+}
+
+
+nav ul > li:first-child {
+    margin-top: 0;
+}
+
+
+//
+// Content
+// -------------------------------
+.content img {
+    max-width: 880px;
+}

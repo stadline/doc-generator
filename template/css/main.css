@@ -1,0 +1,15 @@
+body {
+    padding: 50px 4px 0;
+}
+
+nav {
+    top: 74px;
+}
+
+nav ul > li:first-child {
+    margin-top: 0;
+}
+
+.content img {
+    max-width: 880px;
+}

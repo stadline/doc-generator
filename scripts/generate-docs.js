@@ -1,15 +1,16 @@
 #!/usr/bin/env node
-/* globals cat, cd, echo, grep, sed, ShellString */
 var shell = require('shelljs');
 var yaml = require('js-yaml');
 var fs = require('fs');
 var aglio = require('aglio');
 var lodash = require('lodash');
 
+
+// Generation starts
 shell.echo('=== Documentation generation === \n');
-
+shell.echo('=== Configuration === \n');
+// rootDocPath
 var docpath = __dirname + '/..';
-
 // get argument
 var configYmlFile = docpath + '/' + process.argv[2];
 shell.echo('Load config from ' + configYmlFile);
@@ -22,9 +23,16 @@ try {
     process.exit(1);
 }
 
-//shell.echo(docpath);
-//shell.echo(config);
+/// Aglio Configuration
+var aglioOptions = {
+    themeVariables: config['env']['theme'],
+    themeTemplate: docpath + '/' + config['env']['template'],
+    locals: {
+        menu: {'test' : "test"}
+    }
+};
 
+shell.echo('=== Generate Menu === \n');
 // Change template modification date to force the use of the non-cached version
 // of it by the documentation generator
 shell.touch(docpath + '/' + config['env']['template']);
@@ -33,31 +41,47 @@ shell.touch(docpath + '/' + config['env']['template']);
 // documentation folder
 shell.rm("-R", docpath + '/' + config['env']['destination-folder']);
 
-/// configuration Aglio
-var aglioOptions = {
-    themeVariables: config['env']['theme'],
-    themeTemplate: docpath + '/' + config['env']['template']
-};
+// // loop on menu element
+// lodash.forEach(config['menu'], function (element, index) {
+//     // doc-functional:
+//     // title: Docs Techniques
+//     // children:
+//     //     page1:
+//     //         title: "Comment écrire dans l'API"
+//     // page_key: how-to-write-API-doc
+//
+//     if(config['pages'].hasOwnProperty(element['page_key']) == false) {
+//         console.log(element['page_key'] +' page_key does not exist in "pages" entry');
+//     }
+//
+//     var page = config['pages'][element['page_key']];
+//     var fileDestination = docpath + '/' + config['env']['destination-folder']+ '/' + page['output_folder'];
+//     // create folder if not exist
+//     shell.mkdir('-p', fileDestination);
+//     var htmlFile = fileDestination + '/index.html';
+//     element['page_path'] = htmlFile;
+// });
 
+shell.echo('=== Generate Pages === \n');
 // loop on pages
 lodash.forEach(config['pages'], function (element, index) {
     // load bluePrint String
-    var blueprint = fs.readFileSync( docpath + '/' + element['path'], 'utf8');
+    fs.readFile( docpath + '/' + element['input'], 'utf8', function (err, blueprint) {
+        // render with aglio
+        aglio.render(blueprint, aglioOptions, function (err, html) {
+            if (err) return console.log(err);
 
-    // render with aglio
-    aglio.render(blueprint, aglioOptions, function (err, html, warnings) {
-        // if (err) return console.log(err);
-        // if (warnings) console.log(warnings);
+            var fileDestination = docpath + '/' + config['env']['destination-folder']+ '/' + element['output_folder'];
+            // create folder if not exist
+            shell.mkdir('-p', fileDestination);
 
-        fileDestination = docpath + '/' + config['env']['destination-folder']+ '/' + element['folder'];
-        shell.mkdir('-p', fileDestination);
+            var htmlFile = fileDestination + '/index.html';
 
-        var htmlFile = fileDestination + '/index.html';
-
-        // write html file
-        fs.writeFile(htmlFile, html, function(err) {
-            if (err) console.log(err);
-            console.log(htmlFile + ' generated');
+            // write html file
+            fs.writeFile(htmlFile, html, function(err) {
+                if (err) console.log(err);
+                console.log(htmlFile + ' generated');
+            });
         });
     });
 });

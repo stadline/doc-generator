@@ -5,43 +5,20 @@ mixin Menu()
         .navbar-header
             a.navbar-brand(href="#")= 'Documentation'
         ul.nav.navbar-nav
-            li.dropdown
-                a.dropdown-toggle(href="#",data-toggle="dropdown")= 'APIs '
+            li.dropdown: each entry in locals.menu
+                a.dropdown-toggle(href="#",data-toggle="dropdown")= entry.title
                     span.caret
-                ul.dropdown-menu
-                    li: a(href=docPath + "/api/oauth.html")= 'User API'
-                    li: a(href=docPath + "/api/clubs.html")= 'Club API'
-                    li: a(href=docPath + "/api/contacts.html")= 'Contact API'
-                    li: a(href=docPath + "/api/products.html")= 'Product API'
-                    li: a(href=docPath + "/api/subscriptions.html")= 'Subscription API'
-                    li: a(href=docPath + "/api/sales.html")= 'Sales API'
-                    li: a(href=docPath + "/api/referential_full.html")= 'Referential API'
-                    li: a(href=docPath + "/api/access_controls.html")= 'Access Control API'
-                    li: a(href=docPath + "/api/accounting.html")= 'Accounting API'
-            li.dropdown
-                a.dropdown-toggle(href="#",data-toggle="dropdown")= 'Docs fonctionnelles'
-                    span.caret
-                ul.dropdown-menu
-                    li.dropdown-header Le catalogue
-                    li: a(href=docPath + "/catalog/under-the-hood.html")= 'Sous le capot du catalogue'
-                    li: a(href=docPath + "/catalog/offers.html")= 'Les offres'
-                    li: a(href=docPath + "/catalog/behaviors.html")= 'Les comportements'
-                    li: a(href=docPath + "/catalog/singularities.html")= 'Les singularités'
-                    li.divider
-                    li.dropdown-header Les ventes
-                    li: a(href=docPath + "/sales/under-the-hood-of-sales.html")= 'Sous le capot'
-                    li.divider
-                    li.dropdown-header Les utilisateurs
-                    li: a(href=docPath + "/users/under-the-hood-users-management.html")= 'Sous le capot'
-                    li.divider
-                    li.dropdown-header Le controle d'accès
-                    li: a(href=docPath + "/access-control/under-the-hood.html")= 'Sous le capot'
-                    li: a(href=docPath + "/access-control/resabox.html")= 'Resabox'
-                    li: a(href=docPath + "/access-control/rules-motor.html")= 'Moteur de règle'
-            li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown")= 'Docs techniques'
-                    span.caret
-                ul.dropdown-menu
-                    li: a(href=docPath + "/technical/how-to-write-API-doc.html")= 'Comment écrire la documentation des API'
-                    li: a(href=docPath + "/technical/api-security.html")= 'Sécurité de l\'API'
-                    li: a(href=docPath + "/technical/referential.html")= 'Les référentiels'
+                ul.dropdown-menu: each child in entry.children || []
+                    li: a(href=child.output_path)= child.title
+            //li.dropdown
+            //    a.dropdown-toggle(href="#",data-toggle="dropdown")= 'Docs fonctionnelles'
+            //        span.caret
+            //    ul.dropdown-menu
+            //        li.dropdown-header Le catalogue
+            //        li: a(href=docPath + "/catalog/under-the-hood.html")= 'Sous le capot du catalogue'
+            //li.dropdown
+            //    a.dropdown-toggle(href="#", data-toggle="dropdown")= 'Docs techniques'
+            //        span.caret
+            //    ul.dropdown-menu
+            //        li: a(href=docPath + "/technical/how-to-write-API-doc.html")= 'Comment écrire la documentation des API'
+            //        li: a(href=docPath + "/technical/api-security.html")= 'Sécurité de l\'API'

@@ -5,8 +5,27 @@ env:
 
 pages:
   index:
-    path: index.md
-    folder: ""
+    input: index.md
+    output_folder: ""
   how-to-write-API-doc:
-    path: how-to-write-API-doc.md
-    folder: technical
+    input: how-to-write-API-doc.md
+    output_folder: technical
+#  api_club:
+#    path: how-to-write-API-doc.md
+#    folder: technical
+
+menu:
+  index:
+      title: Api Documentation
+#  apis:
+#      title: APIs
+#      children:
+#          page1:
+#            title: API clubs
+#            page_key:
+  doc-functional:
+      title: Docs Techniques
+      children:
+        page1:
+          title: "Comment écrire dans l'API"
+          page_key: how-to-write-API-doc

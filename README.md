@@ -36,8 +36,9 @@ La ligne de commande génère les documents suivants qui sont requis pour chaque
 
 # TODO
 
-* Tache de génération des éléments de structure pour le projet
-* Faciliter la génération du menu qui pour le moment est toujours dans le template aglio
+* Tache de génération des éléments de structure pour le projet => OK
+* Faciliter la génération du menu qui pour le moment est toujours dans le template aglio => OK
+* Ajouter la gestion d'un lien relatif / absolu
 * Ajouter un peu de robustesse et de tests sur les éléments qui sont utilisés / généré
 * Prendre en compte les chemins relatifs et absolus dans la description des fichiers
 * Mettre en place quelques tests et notamment les mardowns et API Blueprint linter

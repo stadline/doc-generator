@@ -1,16 +1,15 @@
 - var docPath = ""
 
-mixin Menu()
+mixin Menu(menu)
     .navbar.navbar-fixed-top.navbar-inverse
         .navbar-header
             a.navbar-brand(href="#")= 'Documentation'
-        ul.nav.navbar-nav
-            li.dropdown: each entry in locals.menu
+        ul.nav.navbar-nav: each entry in menu || []
+            li.dropdown
                 a.dropdown-toggle(href="#",data-toggle="dropdown")= entry.title
                     span.caret
                 ul.dropdown-menu: each child in entry.children || []
-                    li: a(href=child.output_path)= child.title
-            //li.dropdown
+                    li: a(href=child.absolutePath)= child.title
             //    a.dropdown-toggle(href="#",data-toggle="dropdown")= 'Docs fonctionnelles'
             //        span.caret
             //    ul.dropdown-menu

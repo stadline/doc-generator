@@ -18,7 +18,7 @@ html
             | &nbsp;Back to top
         div(class=self.fullWidth ? 'container-fluid' : 'container')
             .row
-                +Menu(false)
+                +Menu(self.menu)
             .row
                 block nav
                     +Nav(false)

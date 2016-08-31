@@ -23,15 +23,6 @@ try {
     process.exit(1);
 }
 
-/// Aglio Configuration
-var aglioOptions = {
-    themeVariables: config['env']['theme'],
-    themeTemplate: docpath + '/' + config['env']['template'],
-    locals: {
-        menu: {'test' : "test"}
-    }
-};
-
 shell.echo('=== Generate Menu === \n');
 // Change template modification date to force the use of the non-cached version
 // of it by the documentation generator
@@ -41,26 +32,38 @@ shell.touch(docpath + '/' + config['env']['template']);
 // documentation folder
 shell.rm("-R", docpath + '/' + config['env']['destination-folder']);
 
+// Build absolute pages
 // // loop on menu element
-// lodash.forEach(config['menu'], function (element, index) {
-//     // doc-functional:
-//     // title: Docs Techniques
-//     // children:
-//     //     page1:
-//     //         title: "Comment écrire dans l'API"
-//     // page_key: how-to-write-API-doc
-//
-//     if(config['pages'].hasOwnProperty(element['page_key']) == false) {
-//         console.log(element['page_key'] +' page_key does not exist in "pages" entry');
-//     }
-//
-//     var page = config['pages'][element['page_key']];
-//     var fileDestination = docpath + '/' + config['env']['destination-folder']+ '/' + page['output_folder'];
-//     // create folder if not exist
-//     shell.mkdir('-p', fileDestination);
-//     var htmlFile = fileDestination + '/index.html';
-//     element['page_path'] = htmlFile;
-// });
+lodash.forEach(config['pages'], function (page) {
+    // get page
+    var absoluteFile = docpath + '/' + config['env']['destination-folder'] + '/' + page['output'];
+    // create folder if not exist
+    shell.mkdir('-p', require('path').dirname(absoluteFile));
+    page['absolute-file'] = absoluteFile;
+});
+
+// // loop on menu element
+lodash.map(config['menu'], function (menuEntry, index) {
+    if(menuEntry.hasOwnProperty("children")) {
+        lodash.map(menuEntry['children'], function(child, index) {
+            if(!config['pages'].hasOwnProperty(child['page-key'])) {
+                console.log(child['page-key'] +' page-key does not exist in "pages" entry');
+            }
+
+            // get page
+            child['page_path'] = config['pages'][child['page-key']]['absolute-file'];
+        });
+    }
+});
+
+/// Aglio Configuration
+var aglioOptions = {
+    themeVariables: config['env']['theme'],
+    themeTemplate: docpath + '/' + config['env']['template'],
+    locals: {
+        menu: config['menu']
+    }
+};
 
 shell.echo('=== Generate Pages === \n');
 // loop on pages
@@ -71,16 +74,13 @@ lodash.forEach(config['pages'], function (element, index) {
         aglio.render(blueprint, aglioOptions, function (err, html) {
             if (err) return console.log(err);
 
-            var fileDestination = docpath + '/' + config['env']['destination-folder']+ '/' + element['output_folder'];
             // create folder if not exist
-            shell.mkdir('-p', fileDestination);
-
-            var htmlFile = fileDestination + '/index.html';
+            shell.mkdir('-p', require('path').dirname(element['absolute-file']));
 
             // write html file
-            fs.writeFile(htmlFile, html, function(err) {
+            fs.writeFile(element['absolute-file'], html, function(err) {
                 if (err) console.log(err);
-                console.log(htmlFile + ' generated');
+                console.log(element['absolute-file'] + ' generated');
             });
         });
     });

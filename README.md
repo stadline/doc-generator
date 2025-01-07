@@ -1,3 +1,9 @@
+# Update 07/01/2025
+Jessy : On reçoit des alertes depandabot sur ce repo
+Pour moi il n'est plus utilisé 
+Je supprime les packages pour éviter les alertes 
+On devrait pouvoir archiver ce repo sans problème
+
 # Documentation Generator
 
 Documentation Generator est un simple npm package qui a pour but de générer un site static décrivant la documentation du projet. 
